@@ -1,0 +1,71 @@
+body {
+    font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  
+  #app {
+    width: 400px;
+    margin: 100px auto auto;
+    border: 1px solid gainsboro;
+    border-radius: 5px;
+    box-shadow: 0px 5px 5px 2px rgb(245,245,245);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 30px;
+  }
+  
+  h1 {
+    font-weight: 100;
+    font-size: 72px;
+    color: lightpink;
+  }
+  
+  input {
+    font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 300;
+  }
+  
+  input:focus-visible {
+    outline: none;
+  }
+  
+  input::placeholder {
+    font-style: italic;
+    font-weight: 300;
+    color: rgb(225, 225, 225);
+  }
+  
+  input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+  }
+  
+  #input {
+    padding: 10px 5px;
+    font-size: 24px;
+    width: 300px;
+  }
+  
+  #todo-list {
+    margin-top: 40px;
+    width: 300px;
+  }
+  
+  .todo {
+    padding: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    border-bottom: 1px solid rgb(225, 225, 225);
+    font-weight: 300;
+    font-size: 20px;
+  }
+  
+  .text {
+    flex-grow: 1;
+  }
+  
+  .text.checked {
+    text-decoration: line-through;
+  }

@@ -1,4 +1,4 @@
-const API_URL = 'https://www.karoli-matkad-app.onrender.com';
+const API_URL = 'https://karoli-matkad-app.onrender.com';
 // const API_URL = 'http://localhost:10000';
 const matkad = document.querySelector('#matkad');
 const uusMatk = document.querySelector('#uus-matk');

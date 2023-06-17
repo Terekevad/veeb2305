@@ -29,7 +29,7 @@ app.post('/todos', (req, res) => {
 })
 
 app.put('/todos/:todoId', (req, res) => {
-  console.log('toggle id-ga', req.params.todoId);
+  console.log('toggle idga', req.params.todoId);
   for (let todo of todos) {
     if (todo.todoId === parseInt(req.params.todoId, 10)) {
       todo.isChecked = !todo.isChecked;

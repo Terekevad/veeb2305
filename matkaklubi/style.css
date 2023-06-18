@@ -127,6 +127,8 @@ body {
   #matkad {
     margin-top: 70px;
     display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 15px;
   }
   .matk {
    width: 300px; 
@@ -148,3 +150,4 @@ body {
     padding: 10px;
   }
 
+ 

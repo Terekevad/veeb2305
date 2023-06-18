@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,7 +10,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
   <div class="veebileht">
     <div class="pais">
@@ -24,23 +22,23 @@
         </div>
       </nav>
       <div id="matkad">
-
       </div>
     </div>
   </div>
   <script src="script.js"></script>
   <script>
-    const API_URL = 'https://karoli-matkad-app.onrender.com';
-   // const API_URL = 'http://localhost:10000';
+  //const API_URL = 'https://karoli-matkad-app.onrender.com';
+   const API_URL = 'http://localhost:10000';
     const matkad = document.querySelector('#matkad');
     matkad.innerHTML = 'Loading...'
 
     async function getTreks() {
       try {
         const treks = await fetch(`${API_URL}/api/treks`).then((response => response.json()));
-        console.log(treks);
+        matkad.innerHTML = '';
+        console.log(treks);      
         for (let trek of treks.rows.rows) {
-          matkad.innerHTML = `
+          matkad.innerHTML += `
           <div class = "matk">
             <div class="pilt">
               <img src="${trek.image_url}">

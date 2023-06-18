@@ -15,9 +15,37 @@
             <h2>Lisa uus matk</h2>
             <div>
                 <label for="uus-matk-nimi">Nimi</label>
-                <input id="uus-matk-nimi">
+                <input id="uus-matk-nimi" required>
             </div>
-            <button onclick="addTrek()">Lisa matk</button>
+            <div>
+                <label for="uus-matk-laiuskraad">Laiuskraad</label>
+                <input id="uus-matk-laiuskraad" required>
+            </div>
+            <div>
+                <label for="uus-matk-pikkuskraad">Pikkuskraad</label>
+                <input id="uus-matk-pikkuskraad" required>
+            </div>
+            <div>
+                <label for="uus-matk-hind">Hind</label>
+                <input id="uus-matk-hind" required>
+            </div>
+            <div>
+                <label for="uus-matk-pildi-url">Pildi URL</label>
+                <input id="uus-matk-pildi-url" required>
+            </div>
+            <div>
+                <label for="uus-matk-algus">Algus aeg</label>
+                <input id="uus-matk-algus" required>
+            </div>
+            <div>
+                <label for="uus-matk-lopp">Lõpp aeg</label>
+                <input id="uus-matk-lopp" required>
+            </div>
+            <div>
+                <label for="uus-matk-kirjeldus">Kirjeldus</label>
+                <input id="uus-matk-kirjeldus" required>
+            </div>
+            <button id="lisa-matk-nupp" onclick="addTrek()">Lisa matk</button>
             <a onclick="closeNewTrekPanel()" href="javascript:;">Sulge paneel</a>
         </form>
     </div>

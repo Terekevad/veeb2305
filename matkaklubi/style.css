@@ -124,29 +124,3 @@ body {
     z-index: -2;
   }
   
-  #matkad {
-    margin-top: 70px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    column-gap: 15px;
-  }
-  
-  .matk {
-    width: 300px;
-    border: 1px solid rebeccapurple;
-  }
-  
-  .matk > .pilt {
-    width: 100%;
-    height: 150px;
-  }
-  
-  .matk > .pilt > img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .matk > .sisu {
-    padding: 10px;
-  }

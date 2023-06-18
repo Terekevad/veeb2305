@@ -21,57 +21,11 @@
         <div id="navItems" class="parem">
         </div>
       </nav>
-      <div id="matkad">
+      <div class="matkad">
+        
       </div>
     </div>
   </div>
   <script src="script.js"></script>
-  <script>
-    const API_URL = 'https://karoli-matkad-app.onrender.com';
-    // const API_URL = 'http://localhost:10000';
-    const matkad = document.querySelector('#matkad');
-    matkad.innerHTML = 'Loading...'
-
-    async function getTreks() {
-      try {
-        const treks = await fetch(`${API_URL}/api/treks`).then((response => response.json()));
-        matkad.innerHTML = '';
-        console.log(treks);
-        for (let trek of treks) {
-          matkad.innerHTML += `
-            <div class="matk">
-              <div class="pilt">
-                <img src="${trek.image_url}">
-              </div>
-              <div class="sisu">
-                <h3>${trek.name}</h3>
-                <div>
-                  <b>Algus: </b>
-                  <span>${trek.start_time}</span>
-                </div>
-                <div>
-                  <b>Lõpp: </b>
-                  <span>${trek.end_time}</span>
-                </div>
-                <div>
-                  <b>Hind: </b>
-                  <span>${trek.price}€</span>
-                </div>
-                <div>
-                  <a href="registreeri/${trek.id}">Registreeri matkale</a>
-                </div>
-              </div>
-            </div>
-          `
-        }
-      } catch(e) {
-        console.log(e);
-        matkad.innerHTML = 'Error, couldn\'t fetch treks';
-      }
-    }
-
-    getTreks();
-
-  </script>
 </body>
 </html>

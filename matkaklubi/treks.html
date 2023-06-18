@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
   <div class="veebileht">
     <div class="pais">
@@ -21,11 +23,36 @@
         <div id="navItems" class="parem">
         </div>
       </nav>
-      <div class="matkad">
-        
+      <div id="matkad">
+
       </div>
     </div>
   </div>
   <script src="script.js"></script>
+  <script>
+    const matkad = document.querySelector('#matkad');
+    matkad.innerHTML = 'Loading...'
+
+    async function getTreks() {
+      try {
+        const treks = await fetch('http://localhost:10000/api/treks').then((response => response.json()));
+        console.log(treks);
+        for (let trek of treks) {
+          matkad.innerHTML = `
+          <div class = "matk">
+           <h3>${trek.name}</h3>
+            </div>
+          `
+        }
+      } catch(e) {
+        console.log(e);
+        matkad.innerHTML = 'Error, couldn\´t fetch treks';
+      }
+    }
+
+    getTreks();
+
+  </script>
 </body>
+
 </html>

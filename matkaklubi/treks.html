@@ -33,10 +33,11 @@
     matkad.innerHTML = 'Loading...'
 
     async function getTreks() {
+     
       try {
         const treks = await fetch(`${API_URL}/api/treks`).then((response => response.json()));
-        matkad.innerHTML = '';
-        console.log(treks);      
+         matkad.innerHTML = '';
+         console.log(treks);      
         for (let trek of treks.rows.rows) {
           matkad.innerHTML += `
           <div class = "matk">
@@ -64,7 +65,7 @@
           </div>
           `
         }
-      } catch (e) {
+      } catch(e) {
         console.log(e);
         matkad.innerHTML = 'Error, couldn\´t fetch treks';
       }

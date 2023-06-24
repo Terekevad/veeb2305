@@ -2,6 +2,7 @@
 const API_URL = 'http://localhost:10000';
 const matkad = document.querySelector('#matkad');
 const uusMatk = document.querySelector('#uus-matk');
+const matkaPaneeliPealkiri = document.querySelector('#matka-paneel-pealkiri');
 const uusMatkNimi = document.querySelector('#uus-matk-nimi');
 const uusMatkLaiuskraad = document.querySelector('#uus-matk-laiuskraad');
 const uusMatkPikkuskraad = document.querySelector('#uus-matk-pikkuskraad');
@@ -10,16 +11,35 @@ const uusMatkPildiUrl = document.querySelector('#uus-matk-pildi-url');
 const uusMatkAlgus = document.querySelector('#uus-matk-algus');
 const uusMatkLopp = document.querySelector('#uus-matk-lopp');
 const uusMatkKirjeldus = document.querySelector('#uus-matk-kirjeldus');
+const salvestaMatkNupp = document.querySelector('#lisa-matk-nupp');
+let treks = [];
 matkad.innerHTML = 'Loading...'
 
 function startCreatingNewTrek() {
-    uusMatk.style.display = 'flex';
     emptyAllInputs();
+
+    matkaPaneeliPealkiri.innerHTML = 'Lisa uus matk';
+    salvestaMatkNupp.innerHTML = 'Lisa matk';
+    salvestaMatkNupp.onclick = function() { addTrek() };
+    
+    uusMatk.style.display = 'flex';
 }
 
-function editTrek() {
-    console.log('edit trek kutsuti välja');
-    uusMatkNimi.value = 'mingi asi';
+function editTrek(trekId) {
+const trekToEdit =treks.find(({ id }) => trekId == id);
+if (trekToEdit === undefined) {
+    return;
+}
+console.log('edit trek kutsuti välja', trekToEdit);
+
+matkaPaneeliPealkiri.innerHTML = 'Matka muutmine';
+
+uusMatkNimi.value = 'mingi asi';
+
+salvestaMatkNupp.innerHTML = 'Salvesta muudatused';
+salvestaMatkNupp.onclick = function () { saveTrekChanges(trekId) };
+
+uusMatk.style.display = 'flex';
 }
 
 function closeNewTrekPanel() {
@@ -27,54 +47,58 @@ function closeNewTrekPanel() {
     emptyAllInputs();
 }
 
+async function saveTrekChanges(trekId) {
+    console.log('savetrekchanges', trekId);
+
+}
+
 async function addTrek() {
-    if (!isAnyInputEmpty()) {
+    if (isAnyInputEmpty()) {
         return;
     }
     try {
-        const treks = await fetch(`${API_URL}/api/treks`, {
+        await fetch(`${API_URL}/api/treks`, {
             method: 'POST',
             headers: {
-                'Contetnt-Type': 'application/json'
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 name: uusMatkNimi.value,
                 latitude: uusMatkLaiuskraad.value,
                 longitude: uusMatkPikkuskraad.value,
                 price: uusMatkHind.value,
-                imageURL: uusMatkPildiUrl.value,
+                imageUrl: uusMatkPildiUrl.value,
                 startTime: uusMatkAlgus.value,
                 endTime: uusMatkLopp.value,
                 description: uusMatkKirjeldus.value,
             })
-
         }).then((response => response.json()));
 
         getTreks();
         emptyAllInputs();
-    } catch (e) {
+    } catch(e) {
         console.log(e);
         matkad.innerHTML = 'Error, couldn\´t fetch treks';
     }
-
 }
 
 async function getTreks() {
     try {
-        const treks = await fetch(`${API_URL}/api/treks`).then((response => response.json()));
+        treks = await fetch(`${API_URL}/api/treks`).then((response => response.json()));
         console.log(treks);
+
         matkad.innerHTML = `
           <h2>Matkad</h2>
           `;
         for (let trek of treks.rows.rows) {
-            matkad.innerHTML = `
-                  <a onclick="editTrek()" href="javascript:;">${trek.name}</a>
+            matkad.innerHTML += `
+                  <a onclick="editTrek(${trek.id})" href="javascript:;">${trek.name}</a>
               `;
         }
         matkad.innerHTML += `
                <a onclick="startCreatingNewTrek()" href="javascript:;">Lisa uus matk</a>
           `;
-    } catch (e) {
+    } catch(e) {
         console.log(e);
         matkad.innerHTML = 'Error, couldn\´t fetch treks';
     }
@@ -107,8 +131,8 @@ function emptyAllInputs() {
     uusMatkKirjeldus.value = '';
 }
 
-document.getElementById("lisa-matk-nupp").addEventListener("click", function (event) {
+getTreks();
+
+salvestaMatkNupp.addEventListener('click', function (event) {
     event.preventDefault();
 });
-
-getTreks();

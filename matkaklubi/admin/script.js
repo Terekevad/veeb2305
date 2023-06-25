@@ -16,6 +16,7 @@ let treks = [];
 matkad.innerHTML = 'Loading...'
 
 function startCreatingNewTrek() {
+    uusMatk.style.display = 'flex';
     emptyAllInputs();
 
     matkaPaneeliPealkiri.innerHTML = 'Lisa uus matk';
@@ -26,15 +27,22 @@ function startCreatingNewTrek() {
 }
 
 function editTrek(trekId) {
-const trekToEdit =treks.find(({ id }) => trekId == id);
-if (trekToEdit === undefined) {
-    return;
-}
+    const trekToEdit = treks.rows.rows.find(({ id }) => trekId == id);
+    if (trekToEdit === undefined) {
+      return;
+    }
 console.log('edit trek kutsuti välja', trekToEdit);
 
 matkaPaneeliPealkiri.innerHTML = 'Matka muutmine';
 
-uusMatkNimi.value = 'mingi asi';
+uusMatkNimi.value = trekToEdit.name;
+uusMatkLaiuskraad.value = trekToEdit.latitude;
+uusMatkPikkuskraad.value = trekToEdit.longitude;
+uusMatkHind.value = trekToEdit.price;
+uusMatkPildiUrl.value = trekToEdit.image_url;
+uusMatkAlgus.value = trekToEdit.start_time;
+uusMatkLopp.value = trekToEdit.end_time;
+uusMatkKirjeldus.value = trekToEdit.description;
 
 salvestaMatkNupp.innerHTML = 'Salvesta muudatused';
 salvestaMatkNupp.onclick = function () { saveTrekChanges(trekId) };
@@ -49,7 +57,31 @@ function closeNewTrekPanel() {
 
 async function saveTrekChanges(trekId) {
     console.log('savetrekchanges', trekId);
+    if (isAnyInputEmpty()) {
+        return;
+    }try {
+        await fetch(`${API_URL}/api/treks/${trekId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: uusMatkNimi.value,
+                latitude: uusMatkLaiuskraad.value,
+                longitude: uusMatkPikkuskraad.value,
+                price: uusMatkHind.value,
+                imageUrl: uusMatkPildiUrl.value,
+                startTime: uusMatkAlgus.value,
+                endTime: uusMatkLopp.value,
+                description: uusMatkKirjeldus.value,
+            })
+        }).then((response => response.json()));
 
+        getTreks();
+    } catch(e) {
+        console.log(e);
+        matkad.innerHTML = 'Error, couldn\´t fetch treks';
+    }
 }
 
 async function addTrek() {
@@ -133,6 +165,6 @@ function emptyAllInputs() {
 
 getTreks();
 
-salvestaMatkNupp.addEventListener('click', function (event) {
+salvestaMatkNupp.addEventListener('click', function(event) {
     event.preventDefault();
 });

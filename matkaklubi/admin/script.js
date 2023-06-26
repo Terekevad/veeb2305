@@ -11,17 +11,22 @@ const uusMatkPildiUrl = document.querySelector('#uus-matk-pildi-url');
 const uusMatkAlgus = document.querySelector('#uus-matk-algus');
 const uusMatkLopp = document.querySelector('#uus-matk-lopp');
 const uusMatkKirjeldus = document.querySelector('#uus-matk-kirjeldus');
+const nupud = document.querySelector('#nupud');
 const salvestaMatkNupp = document.querySelector('#lisa-matk-nupp');
 let treks = [];
 matkad.innerHTML = 'Loading...'
 
 function startCreatingNewTrek() {
-    uusMatk.style.display = 'flex';
     emptyAllInputs();
 
     matkaPaneeliPealkiri.innerHTML = 'Lisa uus matk';
     salvestaMatkNupp.innerHTML = 'Lisa matk';
     salvestaMatkNupp.onclick = function() { addTrek() };
+
+    const kustutaNupp = document.querySelector('#kustuta-nupp');
+    if (kustutaNupp !== null) {
+        kustutaNupp.remove();
+    }
     
     uusMatk.style.display = 'flex';
 }
@@ -47,19 +52,51 @@ uusMatkKirjeldus.value = trekToEdit.description;
 salvestaMatkNupp.innerHTML = 'Salvesta muudatused';
 salvestaMatkNupp.onclick = function () { saveTrekChanges(trekId) };
 
-uusMatk.style.display = 'flex';
+let kustutaNupp = document.querySelector('#kustuta-nupp');
+if (kustutaNupp !== null) {
+    kustutaNupp.remove();
 }
+kustutaNupp = document.createElement('button');
+kustutaNupp.id = 'kustuta-nupp';
+kustutaNupp.innerHTML = 'Kustuta matk';
+kustutaNupp.onclick = function() {
+    if (!confirm('Kas oled kindel, et tahad matka kustutada?')) {
+        return;
+    }
+    deleteTrek(trekId);
+    closeNewTrekPanel();
+};
+kustutaNupp.addEventListener('click', function(event) {
+    event.preventDefault();
+});
+nupud.appendChild(kustutaNupp);  
+}
+
+uusMatk.style.display = 'flex';
 
 function closeNewTrekPanel() {
     uusMatk.style.display = 'none';
     emptyAllInputs();
 }
 
+async function deleteTrek(trekId) {
+        try {
+        await fetch(`${API_URL}/api/treks/${trekId}`, {
+            method: 'DELETE'
+        });
+
+        getTreks();
+    } catch(e) {
+        console.log(e);
+        matkad.innerHTML = 'Error, couldn\´t fetch treks';
+    }
+}
+
 async function saveTrekChanges(trekId) {
-    console.log('savetrekchanges', trekId);
     if (isAnyInputEmpty()) {
         return;
-    }try {
+    }
+        try {
         await fetch(`${API_URL}/api/treks/${trekId}`, {
             method: 'PUT',
             headers: {
@@ -124,7 +161,7 @@ async function getTreks() {
           `;
         for (let trek of treks.rows.rows) {
             matkad.innerHTML += `
-                  <a onclick="editTrek(${trek.id})" href="javascript:;">${trek.name}</a>
+                  <a onclick="editTrek(${trek.id})" href="javascript:;">${trek.name} ${trek.id}</a>
               `;
         }
         matkad.innerHTML += `
